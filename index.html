@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine Sweeper!!!</title>
-    <link rel="stylesheet" href="css/minesweeper.css"/>
+    <link rel="stylesheet" href="css/minesweeper.css" />
 
 </head>
-<body onload="init()"   >
+
+<body onload="init()">
     <h1>Mine Sweeper!!!</h1>
 
-    <!-- onclick="clickCell()" -->
+    <button onclick="pickBoard(4)" style="font-size: larger; padding: 10px 15px">Easy 4X4</button>
+    <button onclick="pickBoard(8)" style="font-size: larger; padding: 10px 15px">Medium 8X8</button>
+    <button onclick="pickBoard(12)" style="font-size: larger; padding: 10px 15px">Hard 12X12</button>    <div class="board-container"></div>
+    
+    <h1 class="stopwatch">0.00</h1>
 
-    <div class="board-container" ></div>
 
-
-
-    <script src="js/util.js"></script> 
+    <script src="js/util.js"></script>
     <script src="js/game.js"></script>
 </body>
+
 </html>

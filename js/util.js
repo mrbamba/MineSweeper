@@ -8,6 +8,9 @@
 //   }
 //   return color; 
 // }
+var gTimerInterval;
+var gTimer=0
+
 
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -53,7 +56,7 @@ function renderBoard(mat, selector) {
       }
       else if (item.isShown && item.isMine === false) {
         cell = item.minesAroundCount;
-        console.log('item.minesAroundCount',cell)
+        // console.log('item.minesAroundCount',cell)
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
 
       }
@@ -106,4 +109,14 @@ function getCellCoord(strCellId) {
   var parts = strCellId.split('-')
   var coord = { i: +parts[0], j: +parts[1] };
   return coord;
+}
+
+function timer() {
+  var elStopWatch = document.querySelector('.stopwatch')
+  gTimerInterval = setInterval(function () {
+      gTimer++
+      elStopWatch.innerHTML = gTimer / 100
+          , 10000
+  }); 
+
 }

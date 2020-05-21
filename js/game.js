@@ -44,7 +44,19 @@ function init() {
     // renderCell({ i: 1, j: 1 }, MINE)
     // renderCell({ i: 2, j: 3 }, MINE)
 }
+function pickBoard(level){
+    if(level===4){
+        currLevel=0;
+    }else if(level===8){
+        currLevel=1;
+    }else{
+        currLevel=2;
+    }
+    init()
+    console.log(currLevel)
+}
 function gameStart(cell, coord) {
+    timer()
     gGame.isOn = true;
     cell.isShown = true;
     renderCell(coord, EMPTY);
@@ -131,12 +143,12 @@ function cellClicked(elCell) {
 // (see description at the Bonuses section below)
 function expandShown(board, elCell) {
     // var mineSum = 0; 
-    console.log(elCell)
+    // console.log(elCell)
     for (var i = elCell.i - 1; i <= elCell.i + 1; i++) {
         if (i < 0 || i >= board.length) continue;
         for (var j = elCell.j - 1; j <= elCell.j + 1; j++) {
             var cell = board[i][j];
-            console.log(cell,'i:',i,' j:',j)
+            // console.log(cell,'i:',i,' j:',j)
             var location = { i: i, j: j }
             if (j < 0 || j >= board[i].length) continue;
             if (i === elCell.i && j === elCell.j) continue;
@@ -146,7 +158,7 @@ function expandShown(board, elCell) {
             }
             if (cell.minesAroundCount >= 1 && cell.minesAroundCount <= 8) {
                 cell.isShown = true
-                console.log('cell should be shown=true',cell.isShown)
+                // console.log('cell should be shown=true',cell.isShown)
                 renderCellClass(location, 'is-shown')
                 renderCell(location, cell.minesAroundCount)
             } else if (cell.minesAroundCount === 0) {
@@ -193,6 +205,7 @@ function checkGameOver() {
         }
     }
     console.log('game over you won')
+    clearInterval(gTimerInterval)
     return true;
 }
 
@@ -209,6 +222,8 @@ function gameLost() {
             }
         }
     }
+    clearInterval(gTimerInterval)
+
     console.log('game over, you lost!')
 }
 
