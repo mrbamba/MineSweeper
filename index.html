@@ -11,12 +11,17 @@
 
 <body onload="init()">
     <h1>Mine Sweeper!!!</h1>
+    <button ID=restart onclick="init()" style="font-size: larger; padding: 5px 8px">😃</button><br><br>
 
     <button onclick="pickBoard(4)" style="font-size: larger; padding: 10px 15px">Easy 4X4</button>
     <button onclick="pickBoard(8)" style="font-size: larger; padding: 10px 15px">Medium 8X8</button>
-    <button onclick="pickBoard(12)" style="font-size: larger; padding: 10px 15px">Hard 12X12</button>    <div class="board-container"></div>
+    <button onclick="pickBoard(12)" style="font-size: larger; padding: 10px 15px">Hard 12X12</button>  <br>
+    
+    
+    <div class="board-container"></div>
     
     <h1 class="stopwatch">0.00</h1>
+    <h1 class="life-counter"></h1>  
 
 
     <script src="js/util.js"></script>

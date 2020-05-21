@@ -2,6 +2,11 @@
 const MINE = '💣';
 const FLAG = '⛳';
 const EMPTY = ' ';
+const HAPPY = '😃';
+const RESTART = '😔';
+const WIN = '😎';
+const LIFE = '⭐';
+
 
 // A Matrix containing cell objects:
 // Each cell: { minesAroundCount: 4, isShown: true, isMine: false, isMarked: true }
@@ -19,7 +24,6 @@ var gLevel = [{
     mines: 30
 }];
 
-// console.log(gBoard)
 var gGame = {
     isOn: false,
     shownCount: 0,
@@ -27,10 +31,15 @@ var gGame = {
     secsPassed: 0
 };
 
+var lives = 3;
+
 function init() {
-    // debugger
     // create board model
+    clearInterval(gTimerInterval)
+    lifeCounter()
     gBoard = buildBoard(gLevel[currLevel].size)
+    gGame.isOn=false
+    gTimer=0;
 
     // Add Mines:
     // // update model:
@@ -44,13 +53,13 @@ function init() {
     // renderCell({ i: 1, j: 1 }, MINE)
     // renderCell({ i: 2, j: 3 }, MINE)
 }
-function pickBoard(level){
-    if(level===4){
-        currLevel=0;
-    }else if(level===8){
-        currLevel=1;
-    }else{
-        currLevel=2;
+function pickBoard(level) {
+    if (level === 4) {
+        currLevel = 0;
+    } else if (level === 8) {
+        currLevel = 1;
+    } else {
+        currLevel = 2;
     }
     init()
     console.log(currLevel)
@@ -127,10 +136,17 @@ function cellClicked(elCell) {
         }
 
     }
-    if (cell.isMine) {
-        gameLost()
+    if (cell.isMine&& lives>1) {
+        lives--
+        lifeCounter()
+    }else if(cell.isMine){
+        lives--
+        lifeCounter()
 
-    } checkGameOver()
+        gameLost();
+
+    }
+         checkGameOver()
     // renderBoard(gBoard, '.board-container');
 
 }
@@ -142,13 +158,10 @@ function cellClicked(elCell) {
 // BONUS: if you have the time later, try to work more like the real algorithm
 // (see description at the Bonuses section below)
 function expandShown(board, elCell) {
-    // var mineSum = 0; 
-    // console.log(elCell)
     for (var i = elCell.i - 1; i <= elCell.i + 1; i++) {
         if (i < 0 || i >= board.length) continue;
         for (var j = elCell.j - 1; j <= elCell.j + 1; j++) {
             var cell = board[i][j];
-            // console.log(cell,'i:',i,' j:',j)
             var location = { i: i, j: j }
             if (j < 0 || j >= board[i].length) continue;
             if (i === elCell.i && j === elCell.j) continue;
@@ -158,7 +171,6 @@ function expandShown(board, elCell) {
             }
             if (cell.minesAroundCount >= 1 && cell.minesAroundCount <= 8) {
                 cell.isShown = true
-                // console.log('cell should be shown=true',cell.isShown)
                 renderCellClass(location, 'is-shown')
                 renderCell(location, cell.minesAroundCount)
             } else if (cell.minesAroundCount === 0) {
@@ -187,7 +199,6 @@ function cellMarked(elCell) {
         renderCell(coord, EMPTY)
     }
     checkGameOver()
-    // console.log('cell right clicked location', cell)
 }
 
 function checkGameOver() {
@@ -211,6 +222,7 @@ function checkGameOver() {
 
 
 function gameLost() {
+
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
             var cell = gBoard[i][j];
@@ -223,17 +235,11 @@ function gameLost() {
         }
     }
     clearInterval(gTimerInterval)
+    var elStopWatch = document.querySelector('.stopwatch')
+      elStopWatch.innerHTML = 'Game Over!'
 
     console.log('game over, you lost!')
 }
-
-
-
-
-
-
-
-
 
 function randomMines(minesNeeded) {
     for (var i = 0; i < minesNeeded; i++) {
@@ -244,5 +250,16 @@ function randomMines(minesNeeded) {
     // update DOM 
     // renderCell({ i:mineLocation.i, j:mineLocation.j }, MINE)
     // renderBoard(gBoard, '.board-container');
+
+}
+
+function lifeCounter() {
+    var elLife = document.querySelector('.life-counter')
+    if (lives === 3) elLife.textContent = LIFE + LIFE + LIFE;
+    if (lives === 2) elLife.textContent = LIFE + LIFE;
+    if (lives === 1) elLife.textContent = LIFE;
+    if (lives <= 0) elLife.textContent = EMPTY;
+
+
 
 }
