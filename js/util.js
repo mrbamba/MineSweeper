@@ -2,13 +2,13 @@
 
 // timer variables
 var gTimerInterval;
-var gTimer=0
+var gTimer = 0
 
 // returns random int- inclusive
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-
+ 
 // builds the matrix of objects 
 function buildBoard(SIZE) {
   var board = [];
@@ -19,7 +19,8 @@ function buildBoard(SIZE) {
         minesAroundCount: 0,
         isShown: false,
         isMine: false,
-        isMarked: false
+        isMarked: false,
+        expandChecked: false
       }
       board[i][j] = cell;
     }
@@ -47,7 +48,7 @@ function renderBoard(mat, selector) {
         strHTML += `<td id="${i}-${j}" class="${className} " oncontextmenu="cellMarked(this)"> ${cell}</td>`
         console.log('else if', cell)
       }
-      else if (item.isShown && item.isMine === false) {
+      else if (item.isShown && item.isMine === false && item.minesAroundCount!==0) {
         cell = item.minesAroundCount;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
 
@@ -55,10 +56,12 @@ function renderBoard(mat, selector) {
       else if (item.isShown && item.minesAroundCount > 0) {
         cell = item.minesAroundCount;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
-      }
-      else {
+      }else if (item.isShown && item.isMine === false && item.minesAroundCount===0) {
         cell = EMPTY;
-        strHTML += `<td id="${i}-${j}" class=" ${className} "  onclick="cellClicked(this)"   oncontextmenu="cellMarked(this);return false;"> ${cell} </td>`
+        strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
+      } else {
+        cell = EMPTY;
+        strHTML += `<td id="${i}-${j}" class=" ${className}  "  onclick="cellClicked(this)"   oncontextmenu="cellMarked(this);return false;"> ${cell} </td>`
 
       }
     }
@@ -86,7 +89,7 @@ function findEmptyRandomCell(board) {
   var empties = []
   for (var i = 0; i < board.length; i++) {
     for (var j = 0; j < board[0].length; j++) {
-      if (board[i][j].isShown === false && board[i][j].isMine===false) {
+      if (board[i][j].isShown === false && board[i][j].isMine === false) {
         empties.push({ i: i, j: j })
       }
     }
@@ -106,9 +109,9 @@ function getCellCoord(strCellId) {
 function timer() {
   var elStopWatch = document.querySelector('.stopwatch')
   gTimerInterval = setInterval(function () {
-      gTimer++
-      elStopWatch.innerHTML = gTimer /100
-          , 1000
-  }); 
+    gTimer++
+    elStopWatch.innerHTML = gTimer / 100
+      , 1000
+  });
 
 }

@@ -70,13 +70,14 @@ function pickBoard(level) {
 // starts the game happens when the user clicks on the first cell
 function gameStart(cell, coord) {
     timer()
-    gGame.isOn = true;
     cell.isShown = true;
     renderCell(coord, EMPTY);
     renderCellClass(coord, 'is-shown');
     expandShown(gBoard, coord);
+    gGame.isOn = true;
     randomMines(gLevel[currLevel].mines);
     setMinesNegsCount(gBoard);
+    expandShown(gBoard, coord)
     renderBoard(gBoard, '.board-container');
 
 }
@@ -151,6 +152,11 @@ function cellClicked(elCell) {
 // BONUS: if you have the time later, try to work more like the real algorithm
 // (see description at the Bonuses section below)
 function expandShown(board, elCell) {
+    // debugger
+    if(gameLost.isOn===true){
+    if (board[elCell.i][elCell.j].expandChecked === true) return;}
+    board[elCell.i][elCell.j].expandChecked = true;
+    console.log(board[elCell.i][elCell.j])
     for (var i = elCell.i - 1; i <= elCell.i + 1; i++) {
         if (i < 0 || i >= board.length) continue;
         for (var j = elCell.j - 1; j <= elCell.j + 1; j++) {
@@ -170,7 +176,9 @@ function expandShown(board, elCell) {
                 cell.isShown = true
                 renderCellClass(location, 'is-shown')
                 renderCell(location, EMPTY)
-                // expandShown(board, location)
+                if (board[i][j].expandChecked === false && (gGame.isOn === true)) {
+                    expandShown(gBoard, location)
+                }
             }
         }
     }
