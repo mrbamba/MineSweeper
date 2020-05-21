@@ -3,7 +3,7 @@ const MINE = '💣';
 const FLAG = '⛳';
 const EMPTY = ' ';
 const HAPPY = '😃';
-const RESTART = '😔';
+const LOST = '😔';
 const WIN = '😎';
 const LIFE = '⭐';
 
@@ -35,11 +35,14 @@ var lives = 3;
 
 function init() {
     // create board model
+    resetIconUpdate(HAPPY)
+
     clearInterval(gTimerInterval)
     lifeCounter()
     gBoard = buildBoard(gLevel[currLevel].size)
     gGame.isOn=false
     gTimer=0;
+    lives = 3
 
     // Add Mines:
     // // update model:
@@ -136,9 +139,11 @@ function cellClicked(elCell) {
         }
 
     }
-    if (cell.isMine&& lives>1) {
+    
+    if (cell.isMine&& lives>0) {
         lives--
         lifeCounter()
+        notifyLifeLost()
     }else if(cell.isMine){
         lives--
         lifeCounter()
@@ -215,8 +220,10 @@ function checkGameOver() {
             }
         }
     }
+
     console.log('game over you won')
     clearInterval(gTimerInterval)
+    resetIconUpdate(WIN)
     return true;
 }
 
@@ -236,6 +243,8 @@ function gameLost() {
     }
     clearInterval(gTimerInterval)
     var elStopWatch = document.querySelector('.stopwatch')
+    resetIconUpdate(LOST)
+
       elStopWatch.innerHTML = 'Game Over!'
 
     console.log('game over, you lost!')
@@ -259,7 +268,22 @@ function lifeCounter() {
     if (lives === 2) elLife.textContent = LIFE + LIFE;
     if (lives === 1) elLife.textContent = LIFE;
     if (lives <= 0) elLife.textContent = EMPTY;
+}
 
 
+function notifyLifeLost(){
+    var elBody=document.body.style.backgroundColor = "yellow";
+    setTimeout(removeLifeLostAlert, 50);
+      
 
+}
+
+function removeLifeLostAlert() {
+    var elBody=document.body.style.backgroundColor = "#dadada";
+}
+
+resetIconUpdate()
+function resetIconUpdate(status){
+    var icon=document.getElementById('restart')
+    icon.innerText=status
 }
