@@ -81,3 +81,9 @@ function renderCell(location, value) {
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
   elCell.innerHTML = value;
 }
+
+function renderCellClass(location, value) {
+  // // Select the elCell and set the value
+  var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
+  elCell.classList += value;
+}

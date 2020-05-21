@@ -36,9 +36,9 @@ function init() {
     setMinesNegsCount(gBoard)
     renderBoard(gBoard, '.board-container');
 
-    // // // // update DOM
-    // renderCell({ i: 1, j: 1 }, MINE)
-    // renderCell({ i: 2, j: 3 }, MINE)
+    // // // update DOM
+    renderCell({ i: 1, j: 1 }, MINE)
+    renderCell({ i: 2, j: 3 }, MINE)
 }
 
 function setMinesNegsCount(board) {
@@ -76,60 +76,27 @@ function countMineNeighbors(cellI, cellJ, mat) {
 function cellClicked(elCell) {
     // Called when a cell (td) is clicked
     var coord = getCellCoord(elCell.id)
-    var cell = gBoard[coord.i][coord.j]
+    var cell=gBoard[coord.i][coord.j]
     console.log(cell)
-    if (cell.minesAroundCount !== NaN && cell.isMine === false && cell.isMarked === false) {
-        cell.isShown = true
+    if(cell.minesAroundCount>=0&&cell.minesAroundCount<=8){
+        cell.isShown=true
+        renderCell(coord, cell.minesAroundCount)
         renderCellClass(coord, 'is-shown')
-        if (cell.minesAroundCount === 0) {
-            renderCell(coord, EMPTY)
-
-        } else {
-            renderCell(coord, cell.minesAroundCount)
-        }
 
     }
-    if (cell.isMine) {
-        gameLost()
-
-    }
-    // console.log('cell clicked location', coord)
+    console.log('cell clicked location', coord)
 }
 
 function cellMarked(elCell) {
     // Called on right click to mark a cell (suspected to be a mine) 
     // Search the web (and implement) how to hide the context menu on right click
-    var coord = getCellCoord(elCell.id);
-    var cell = gBoard[coord.i][coord.j];
-    if (cell.isShown === false && cell.isMarked === false) {
-        cell.isMarked = true
-        renderCell(coord, FLAG)
-    } else if (cell.isShown === false && cell.isMarked === true) {
-        cell.isMarked = false
-        renderCell(coord, EMPTY)
-    } else return;
+    var cell = getCellCoord(elCell.id)
 
-    // console.log('cell right clicked location', cell)
+    console.log('cell right clicked location', cell)
 }
 
-// function checkGameOver() {
-//     // Game ends when all mines are marked, and all the other cells are shown
-
-//     for (var)
-// }
-function gameLost() {
-    for (var i = 0; i < gBoard.length; i++) {
-        for (var j = 0; j < gBoard[0].length; j++) {
-            var cell = gBoard[i][j];
-            if (cell.isMine === true) {
-                cell.isShown = true;
-                renderCellClass({ i: i, j: j }, 'is-shown')
-                renderCell({ i: i, j: j }, MINE)
-
-            }
-        }
-    }
-
+function checkGameOver() {
+    // Game ends when all mines are marked, and all the other cells are shown
 }
 
 function expandShown(board, elCell, i, j) {
