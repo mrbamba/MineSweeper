@@ -1,21 +1,15 @@
-
 'use strict'
-// function getRandomColor() {
-//   var letters = '0123456789ABCDEF'.split('');
-//   var color = '#';
-//   for (var i = 0; i < 6; i++) {
-//     color += letters[Math.floor(Math.random() * 16)];
-//   }
-//   return color; 
-// }
+
+// timer variables
 var gTimerInterval;
 var gTimer=0
 
-
+// returns random int- inclusive
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// builds the matrix of objects 
 function buildBoard(SIZE) {
   var board = [];
   for (var i = 0; i < SIZE; i++) {
@@ -27,14 +21,13 @@ function buildBoard(SIZE) {
         isMine: false,
         isMarked: false
       }
-      // board[i][j] = EMPTY;
       board[i][j] = cell;
     }
   }
   return board;
 }
 
-
+// renders the board according the model 
 function renderBoard(mat, selector) {
   var cell;
   var strHTML = '<table border="0"><tbody>';
@@ -56,7 +49,6 @@ function renderBoard(mat, selector) {
       }
       else if (item.isShown && item.isMine === false) {
         cell = item.minesAroundCount;
-        // console.log('item.minesAroundCount',cell)
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
 
       }
@@ -66,12 +58,9 @@ function renderBoard(mat, selector) {
       }
       else {
         cell = EMPTY;
-        // console.log('else ', cell)
         strHTML += `<td id="${i}-${j}" class=" ${className} "  onclick="cellClicked(this)"   oncontextmenu="cellMarked(this);return false;"> ${cell} </td>`
 
       }
-      // strHTML += '<td class="' + className + '"> ' + cell + ' </td>' //original class name
-      // var cell = mat[i][j];
     }
     strHTML += '</tr>'
   }
@@ -80,23 +69,24 @@ function renderBoard(mat, selector) {
   elContainer.innerHTML = strHTML;
 }
 
+// // Select the elCell and set the value
 function renderCell(location, value) {
-  // // Select the elCell and set the value
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
   elCell.innerHTML = value;
 }
 
+// // Select the elCell and adds a class value
 function renderCellClass(location, value) {
-  // // Select the elCell and set the value
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
   elCell.classList.add(value);
 }
 
+// Goes through the matrix, finds a random mineless cell and returns it
 function findEmptyRandomCell(board) {
   var empties = []
   for (var i = 0; i < board.length; i++) {
     for (var j = 0; j < board[0].length; j++) {
-      if (board[i][j].isShown === false) {
+      if (board[i][j].isShown === false && board[i][j].isMine===false) {
         empties.push({ i: i, j: j })
       }
     }
@@ -105,18 +95,20 @@ function findEmptyRandomCell(board) {
   return res;
 }
 
+// translates from cell-i-j to object
 function getCellCoord(strCellId) {
   var parts = strCellId.split('-')
   var coord = { i: +parts[0], j: +parts[1] };
   return coord;
 }
 
+// starts the timer
 function timer() {
   var elStopWatch = document.querySelector('.stopwatch')
   gTimerInterval = setInterval(function () {
       gTimer++
-      elStopWatch.innerHTML = gTimer / 100
-          , 10000
+      elStopWatch.innerHTML = gTimer /100
+          , 1000
   }); 
 
 }

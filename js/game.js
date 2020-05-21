@@ -1,4 +1,6 @@
 'use strict';
+
+// The constant icons used throughout the game
 const MINE = '💣';
 const FLAG = '⛳';
 const EMPTY = ' ';
@@ -6,13 +8,15 @@ const HAPPY = '😃';
 const LOST = '😔';
 const WIN = '😎';
 const LIFE = '⭐';
-
+// const HINT = '🤔';
 
 // A Matrix containing cell objects:
-// Each cell: { minesAroundCount: 4, isShown: true, isMine: false, isMarked: true }
-
 var gBoard;
+
+// the current selected game level
 var currLevel = 1;
+
+// The different levels the user can select and their properties
 var gLevel = [{
     size: 4,
     mines: 2
@@ -24,15 +28,15 @@ var gLevel = [{
     mines: 30
 }];
 
+// game status
 var gGame = {
     isOn: false,
-    shownCount: 0,
-    markedCount: 0,
-    secsPassed: 0
 };
 
+// Life left count
 var lives = 3;
 
+// Initializes the game
 function init() {
     // create board model
     resetIconUpdate(HAPPY)
@@ -40,22 +44,17 @@ function init() {
     clearInterval(gTimerInterval)
     lifeCounter()
     gBoard = buildBoard(gLevel[currLevel].size)
-    gGame.isOn=false
-    gTimer=0;
+    gGame.isOn = false
+    gTimer = 0;
     lives = 3
 
-    // Add Mines:
-    // // update model:
-    // randomMines(gLevel[currLevel].mines)
     console.table(gBoard);
     // Render Board:
-    // setMinesNegsCount(gBoard)
     renderBoard(gBoard, '.board-container');
 
-    // // // // update DOM
-    // renderCell({ i: 1, j: 1 }, MINE)
-    // renderCell({ i: 2, j: 3 }, MINE)
 }
+
+// handles the users level selection buttons
 function pickBoard(level) {
     if (level === 4) {
         currLevel = 0;
@@ -67,6 +66,8 @@ function pickBoard(level) {
     init()
     console.log(currLevel)
 }
+
+// starts the game happens when the user clicks on the first cell
 function gameStart(cell, coord) {
     timer()
     gGame.isOn = true;
@@ -80,10 +81,8 @@ function gameStart(cell, coord) {
 
 }
 
+// counts the neighbours next to each cell, runs countMineNeighbors() on each cell
 function setMinesNegsCount() {
-    // Count mines around each cell and set the cell's minesAroundCount. 
-    // renderBoard(board) Render the board as}
-    // var mineNegSum = 0;
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
             var mineNegSum = countMineNeighbors(i, j, gBoard);
@@ -95,7 +94,7 @@ function setMinesNegsCount() {
 
 }
 
-
+// counts the neighbours for each cell
 function countMineNeighbors(cellI, cellJ, mat) {
     var mineSum = 0;
     for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -112,48 +111,37 @@ function countMineNeighbors(cellI, cellJ, mat) {
     return mineSum;
 }
 
-
+// Called when a cell (td) is clicked
 function cellClicked(elCell) {
-    // Called when a cell (td) is clicked
     var coord = getCellCoord(elCell.id)
     var cell = gBoard[coord.i][coord.j]
     if (gGame.isOn === false) {
         gameStart(cell, coord);
-
-        // return
     }
     if (cell.minesAroundCount !== NaN && cell.isMine === false && cell.isMarked === false) {
         cell.isShown = true
-        // renderCellClass(coord, 'is-shown')
         if (cell.minesAroundCount === 0) {
             renderCell(coord, EMPTY)
             renderCellClass(coord, 'is-shown')
             expandShown(gBoard, coord)
-            // expandShown(gBoard, coord)
 
         } else {
             renderCell(coord, cell.minesAroundCount)
             renderCellClass(coord, 'is-shown')
-
-
         }
-
     }
-    
-    if (cell.isMine&& lives>0) {
+    if (cell.isMine && lives > 1) {
         lives--
         lifeCounter()
         notifyLifeLost()
-    }else if(cell.isMine){
+    } else if (cell.isMine) {
         lives--
         lifeCounter()
 
         gameLost();
-
     }
-         checkGameOver()
-    // renderBoard(gBoard, '.board-container');
-
+    checkGameOver()
+    return
 }
 
 // When user clicks a cell with no mines around,
@@ -182,15 +170,14 @@ function expandShown(board, elCell) {
                 cell.isShown = true
                 renderCellClass(location, 'is-shown')
                 renderCell(location, EMPTY)
-
-
-
+                // expandShown(board, location)
             }
         }
     }
-
+    return
 }
 
+// handles right clicking the table field
 function cellMarked(elCell) {
     // Called on right click to mark a cell (suspected to be a mine) 
     // Search the web (and implement) how to hide the context menu on right click
@@ -204,10 +191,11 @@ function cellMarked(elCell) {
         renderCell(coord, EMPTY)
     }
     checkGameOver()
+    return
 }
 
+// Game ends when all mines are marked, and all the other cells are shown
 function checkGameOver() {
-    // Game ends when all mines are marked, and all the other cells are shown
 
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard[0].length; j++) {
@@ -224,10 +212,10 @@ function checkGameOver() {
     console.log('game over you won')
     clearInterval(gTimerInterval)
     resetIconUpdate(WIN)
-    return true;
+    return;
 }
 
-
+// blows up the mines and posts game over notice when the user clicked a mine
 function gameLost() {
 
     for (var i = 0; i < gBoard.length; i++) {
@@ -245,21 +233,20 @@ function gameLost() {
     var elStopWatch = document.querySelector('.stopwatch')
     resetIconUpdate(LOST)
 
-      elStopWatch.innerHTML = 'Game Over!'
+    elStopWatch.innerHTML = 'Game Over!'
 
     console.log('game over, you lost!')
+    return
 }
 
+// puts in random mines
 function randomMines(minesNeeded) {
     for (var i = 0; i < minesNeeded; i++) {
         var mineLocation = findEmptyRandomCell(gBoard);
         //update model
         gBoard[mineLocation.i][mineLocation.j].isMine = true;
     }
-    // update DOM 
-    // renderCell({ i:mineLocation.i, j:mineLocation.j }, MINE)
-    // renderBoard(gBoard, '.board-container');
-
+    return
 }
 
 function lifeCounter() {
@@ -268,22 +255,24 @@ function lifeCounter() {
     if (lives === 2) elLife.textContent = LIFE + LIFE;
     if (lives === 1) elLife.textContent = LIFE;
     if (lives <= 0) elLife.textContent = EMPTY;
+    return;
 }
 
 
-function notifyLifeLost(){
-    var elBody=document.body.style.backgroundColor = "yellow";
+function notifyLifeLost() {
+    var elBody = document.body.style.backgroundColor = "yellow";
     setTimeout(removeLifeLostAlert, 50);
-      
-
+    return;
 }
 
 function removeLifeLostAlert() {
-    var elBody=document.body.style.backgroundColor = "#dadada";
+    var elBody = document.body.style.backgroundColor = "#dadada";
+    return;
 }
 
 resetIconUpdate()
-function resetIconUpdate(status){
-    var icon=document.getElementById('restart')
-    icon.innerText=status
+function resetIconUpdate(status) {
+    var icon = document.getElementById('restart')
+    icon.innerText = status
+    return;
 }
