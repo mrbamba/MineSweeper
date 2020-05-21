@@ -25,30 +25,30 @@ var gGame = {
 function init() {
     // create board model
     gBoard = buildBoard(gLevel.SIZE)
-    
+
     // Add Mines:
     // // update model:
-     gBoard[2][3].isMine=true
-     gBoard[1][1].isMine =true
-     
-     console.table(gBoard);
-     // Render Board:
-     setMinesNegsCount(gBoard)
-     renderBoard(gBoard, '.board-container');
-     
-         // // // update DOM
-         renderCell({ i: 1, j: 1 },MINE)
-         renderCell({ i: 2, j: 3 },MINE)
+    gBoard[2][3].isMine = true
+    gBoard[1][1].isMine = true
+
+    console.table(gBoard);
+    // Render Board:
+    setMinesNegsCount(gBoard)
+    renderBoard(gBoard, '.board-container');
+
+    // // // update DOM
+    renderCell({ i: 1, j: 1 }, MINE)
+    renderCell({ i: 2, j: 3 }, MINE)
 }
 
 function setMinesNegsCount(board) {
     // Count mines around each cell and set the cell's minesAroundCount. 
     // renderBoard(board) Render the board as}
     var mineNegSum = 0;
-    for (var i = 0; i < board.length;i++) {
+    for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[0].length; j++) {
-            mineNegSum =countMineNeighbors(i,j,board);
-            board[i][j].minesAroundCount=mineNegSum
+            mineNegSum = countMineNeighbors(i, j, board);
+            board[i][j].minesAroundCount = mineNegSum
         }
 
     }
@@ -64,27 +64,27 @@ function countMineNeighbors(cellI, cellJ, mat) {
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (j < 0 || j >= mat[i].length) continue;
             if (i === cellI && j === cellJ) continue;
-            console.log(mat[i][j].isMine)
-            if (mat[i][j].isMine===true) {
+            if (mat[i][j].isMine === true) {
                 mineSum++;
             }
         }
     }
     return mineSum;
 }
-function clickCell(ev) {
-    // shell point to either cellClicked or cellMarked
-    console.log(ev)
-}
 
-function cellClicked(elCell, i, j) {
+
+function cellClicked(elCell) {
     // Called when a cell (td) is clicked
-    console.log('cell clicked')
+    var cell = getCellCoord(elCell.id)
+    console.log('cell clicked location', cell)
 }
 
 function cellMarked(elCell) {
     // Called on right click to mark a cell (suspected to be a mine) 
     // Search the web (and implement) how to hide the context menu on right click
+    var cell = getCellCoord(elCell.id)
+
+    console.log('cell right clicked location', cell)
 }
 
 function checkGameOver() {
@@ -98,4 +98,14 @@ function expandShown(board, elCell, i, j) {
     // Start with a basic implementation that only opens the non - mine 1st degree neighbors 
     // BONUS: if you have the time later, try to work more like the real algorithm
     // (see description at the Bonuses section below)
+}
+
+
+
+
+function getCellCoord(strCellId) {
+    var parts = strCellId.split('-')
+    var coord = { i: +parts[0], j: +parts[1] };
+    console.log(coord)
+    return coord;
 }

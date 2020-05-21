@@ -20,7 +20,7 @@ function buildBoard(SIZE) {
     for (var j = 0; j < SIZE; j++) {
       var cell = {
         minesAroundCount: 0,
-        isShown: true,
+        isShown: false,
         isMine: false,
         isMarked: false
       }
@@ -43,24 +43,28 @@ function renderBoard(mat, selector) {
       var item = mat[i][j];
       if (item.isShown && item.isMine) {
         cell = MINE;
-        strHTML += '<td class="' + className + ' is-shown"> ' + cell + ' </td>'
+        strHTML += `<td id="${i}-${j}" class="${className} is-shown" onclick="clickCell(this)"> ${cell} </td>`
         console.log('1st if', cell)
-      } else if (item.isMarked) {
+      }
+      else if (item.isMarked) {
         cell = FLAG;
-        strHTML += '<td class="' + className + '"> ' + cell + ' </td>'
+        strHTML += `<td id="${i}-${j}" class="${className} " oncontextmenu="cellMarked(this)"> ${cell}</td>`
         console.log('else if', cell)
-      } else if (item.isShown && item.isMine === false) {
+      }
+      else if (item.isShown && item.isMine === false) {
         cell = item.minesAroundCount;
-        strHTML += '<td class="' + className + ' is-shown"> ' + cell + ' </td>'
+        strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ' + cell + ' </td>`
 
-        // if(item.minesAroundCount===0){}
-        console.log(cell)
-      } else if (item.isShown) {
+      }
+      else if (item.isShown) {
         cell = EMPTY;
-        strHTML += '<td class="' + className + ' is-shown"> ' + cell + ' </td>'
-      } else {
+        strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
+      }
+      else {
         cell = EMPTY;
         console.log('else ', cell)
+        strHTML += `<td id="${i}-${j}" class=" ${className} "  onclick="cellClicked(this)"   oncontextmenu="cellMarked(this);return false;"> ${cell} </td>`
+
       }
       // strHTML += '<td class="' + className + '"> ' + cell + ' </td>' //original class name
       // var cell = mat[i][j];
@@ -75,6 +79,5 @@ function renderBoard(mat, selector) {
 function renderCell(location, value) {
   // // Select the elCell and set the value
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
-  console.log(elCell)
   elCell.innerHTML = value;
 }
