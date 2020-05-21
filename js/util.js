@@ -53,16 +53,17 @@ function renderBoard(mat, selector) {
       }
       else if (item.isShown && item.isMine === false) {
         cell = item.minesAroundCount;
-        strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ' + cell + ' </td>`
+        console.log('item.minesAroundCount',cell)
+        strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
 
       }
-      else if (item.isShown) {
-        cell = EMPTY;
+      else if (item.isShown && item.minesAroundCount > 0) {
+        cell = item.minesAroundCount;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
       }
       else {
         cell = EMPTY;
-        console.log('else ', cell)
+        // console.log('else ', cell)
         strHTML += `<td id="${i}-${j}" class=" ${className} "  onclick="cellClicked(this)"   oncontextmenu="cellMarked(this);return false;"> ${cell} </td>`
 
       }
@@ -85,5 +86,24 @@ function renderCell(location, value) {
 function renderCellClass(location, value) {
   // // Select the elCell and set the value
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
-  elCell.classList += value;
+  elCell.classList.add(value);
+}
+
+function findEmptyRandomCell(board) {
+  var empties = []
+  for (var i = 0; i < board.length; i++) {
+    for (var j = 0; j < board[0].length; j++) {
+      if (board[i][j].isShown === false) {
+        empties.push({ i: i, j: j })
+      }
+    }
+  }
+  var res = empties[Math.floor(Math.random() * empties.length)];
+  return res;
+}
+
+function getCellCoord(strCellId) {
+  var parts = strCellId.split('-')
+  var coord = { i: +parts[0], j: +parts[1] };
+  return coord;
 }
