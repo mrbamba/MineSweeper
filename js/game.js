@@ -2,12 +2,12 @@
 
 // The constant icons used throughout the game
 const MINE = '💣';
-const FLAG = '⛳';
+const FLAG = '🏴';
 const EMPTY = ' ';
 const HAPPY = '😃';
 const LOST = '😔';
 const WIN = '😎';
-const LIFE = '⭐';
+const LIFE = '❤️';
 // const HINT = '🤔';
 
 // A Matrix containing cell objects:
@@ -46,10 +46,14 @@ function init() {
     gBoard = buildBoard(gLevel[currLevel].size)
     gGame.isOn = false
     gTimer = 0;
-    lives = 3
+    lives = 3;
+    var elStopWatch = document.querySelector('.stopwatch')
+    elStopWatch.innerHTML = "0:00"
+
 
     console.table(gBoard);
     // Render Board:
+    lifeCounter()
     renderBoard(gBoard, '.board-container');
 
 }
@@ -119,6 +123,7 @@ function cellClicked(elCell) {
     if (gGame.isOn === false) {
         gameStart(cell, coord);
     }
+    if (cell.isMarked)return;
     if (cell.minesAroundCount !== NaN && cell.isMine === false && cell.isMarked === false) {
         cell.isShown = true
         if (cell.minesAroundCount === 0) {
@@ -156,7 +161,6 @@ function expandShown(board, elCell) {
     if(gameLost.isOn===true){
     if (board[elCell.i][elCell.j].expandChecked === true) return;}
     board[elCell.i][elCell.j].expandChecked = true;
-    console.log(board[elCell.i][elCell.j])
     for (var i = elCell.i - 1; i <= elCell.i + 1; i++) {
         if (i < 0 || i >= board.length) continue;
         for (var j = elCell.j - 1; j <= elCell.j + 1; j++) {

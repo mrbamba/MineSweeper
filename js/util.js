@@ -3,6 +3,19 @@
 // timer variables
 var gTimerInterval;
 var gTimer = 0
+var seconds=0;
+var minutes=0;
+
+
+function stopwatch(){
+  seconds++
+  if(seconds/60===1){
+    seconds=0
+    minutes++
+  }
+  var elStopWatch = document.querySelector('.stopwatch').innerHTML=minutes+":"+seconds;
+
+}
 
 // returns random int- inclusive
 function getRandomIntInclusive(min, max) {

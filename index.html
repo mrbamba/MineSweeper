@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine Sweeper!!!</title>
     <link rel="stylesheet" href="css/minesweeper.css" />
- 
+
 </head>
 
 <body onload="init()">
+    <div class="header">
     <h1>Mine Sweeper!!!</h1>
     <!-- Smiley reset button  -->
     <button ID=restart onclick="init()" style="font-size: larger; padding: 5px 8px"></button><br><br>
 
     <!-- level selector buttons -->
-    <button onclick="pickBoard(4)" style="font-size: larger; padding: 10px 15px">Easy 4X4</button>
-    <button onclick="pickBoard(8)" style="font-size: larger; padding: 10px 15px">Medium 8X8</button>
-    <button onclick="pickBoard(12)" style="font-size: larger; padding: 10px 15px">Hard 12X12</button>  <br>
-    
+        <button onclick="pickBoard(4)" >Easy 4X4</button>
+        <button onclick="pickBoard(8)" >Medium 8X8</button>
+        <button onclick="pickBoard(12)" >Hard 12X12</button>
+    </div>
+
     <!-- The Game  -->
     <div class="board-container"></div>
 
@@ -26,7 +28,7 @@
     <h1 class="stopwatch">0.00</h1>
 
     <!-- Life counters / Stars -->
-    <h1 class="life-counter"></h1>  
+    <h1 class="life-counter"></h1>
 
 
     <script src="js/util.js"></script>
