@@ -13,12 +13,12 @@
     <div class="header">
     <h1>Mine Sweeper!!!</h1>
     <!-- Smiley reset button  -->
-    <button ID=restart onclick="init()" style="font-size: larger; padding: 5px 8px"></button><br><br>
+    <button ID=restart class="restart" onclick="init()"></button><br><br>
 
     <!-- level selector buttons -->
-        <button onclick="pickBoard(4)" >Easy 4X4</button>
-        <button onclick="pickBoard(8)" >Medium 8X8</button>
-        <button onclick="pickBoard(12)" >Hard 12X12</button>
+        <button onclick="pickBoard(4)" class="pick-board" >Easy 4X4</button>
+        <button onclick="pickBoard(8)" class="pick-board">Medium 8X8</button>
+        <button onclick="pickBoard(12)" class="pick-board">Hard 12X12</button>
     </div>
 
     <!-- The Game  -->

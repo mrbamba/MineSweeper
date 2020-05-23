@@ -6,9 +6,17 @@ body {
     margin: 0;
 }
 
-/* h1 {
-    color: #1b96cf;
-} */
+.header .restart {
+    font-size: 30px;
+    border-radius: 50%;
+    /* font-size: xx-large */
+    background-color: white;
+    cursor: pointer;
+    padding-top: 4px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+}
 
 .cell {
     width: 40px;
@@ -61,24 +69,35 @@ div {
     -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.32);
     -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.32);
     box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.32);
-    cursor: pointer;
 }
 
 .header h1 {
     color: #ffffff;
 }
 
-.header button {
-    border-radius: 15%;
-    margin: 0%;
+.pick-board {
+    border-radius: 15px;
+    margin: 0% auto;
     text-align: center;
     padding: 0%;
     text-size-adjust: 4em;
     font-size: larger;
-    padding: 20px; 
+    padding: 8px;
     margin: 5px;
+    background-color: white;
+    cursor: pointer;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
 }
 
-.stopwatch{
+/* .pick-board :hover {
+    -webkit-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+} */
+
+.stopwatch {
     color: #1b96cf;
+
 }
