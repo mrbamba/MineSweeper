@@ -217,7 +217,7 @@ function checkGameOver() {
     console.log('game over you won')
     clearInterval(interval)
     resetIconUpdate(WIN)
-    startTimer()
+    clearInterval(interval);
     return;
 }
 
@@ -242,7 +242,6 @@ function gameLost() {
     elStopWatch.innerHTML = 'Game Over!'
 
     console.log('game over, you lost!')
-    startTimer()
     return
 }
 
