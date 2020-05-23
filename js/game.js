@@ -38,16 +38,13 @@ var lives = 3;
 
 // Initializes the game
 function init() {
-    // create board model
+    
     resetIconUpdate(HAPPY)
-    reset()
-    interval = null
+    resetTimer()
     lifeCounter()
     gBoard = buildBoard(gLevel[currLevel].size)
     gGame.isOn = false
     lives = 3;
-    var elStopWatch = document.querySelector('.stopwatch')
-    elStopWatch.innerHTML = "0:00"
     console.table(gBoard);
     // Render Board:
     lifeCounter()
@@ -65,12 +62,10 @@ function pickBoard(level) {
         currLevel = 2;
     }
     init()
-    console.log(currLevel)
 }
 
 // starts the game happens when the user clicks on the first cell
 function gameStart(cell, coord) {
-    startStop()
     cell.isShown = true;
     renderCell(coord, EMPTY);
     renderCellClass(coord, 'is-shown');
@@ -79,6 +74,7 @@ function gameStart(cell, coord) {
     randomMines(gLevel[currLevel].mines);
     setMinesNegsCount(gBoard);
     expandShown(gBoard, coord)
+    startTimer()
     renderBoard(gBoard, '.board-container');
 
 }
@@ -221,7 +217,7 @@ function checkGameOver() {
     console.log('game over you won')
     clearInterval(interval)
     resetIconUpdate(WIN)
-    startStop()
+    startTimer()
     return;
 }
 
@@ -246,7 +242,7 @@ function gameLost() {
     elStopWatch.innerHTML = 'Game Over!'
 
     console.log('game over, you lost!')
-    startStop()
+    startTimer()
     return
 }
 

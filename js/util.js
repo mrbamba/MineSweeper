@@ -1,23 +1,10 @@
 'use strict'
 
-// timer variables
-
-
-function stopwatch(){
-  seconds++
-  if(seconds/60===1){
-    seconds=0
-    minutes++
-  }
-  var elStopWatch = document.querySelector('.stopwatch').innerText=minutes+":"+seconds;
-
-}
-
 // returns random int- inclusive
 function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
- 
+
 // builds the matrix of objects 
 function buildBoard(SIZE) {
   var board = [];
@@ -57,7 +44,7 @@ function renderBoard(mat, selector) {
         strHTML += `<td id="${i}-${j}" class="${className} " oncontextmenu="cellMarked(this)"> ${cell}</td>`
         console.log('else if', cell)
       }
-      else if (item.isShown && item.isMine === false && item.minesAroundCount!==0) {
+      else if (item.isShown && item.isMine === false && item.minesAroundCount !== 0) {
         cell = item.minesAroundCount;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
 
@@ -65,7 +52,7 @@ function renderBoard(mat, selector) {
       else if (item.isShown && item.minesAroundCount > 0) {
         cell = item.minesAroundCount;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
-      }else if (item.isShown && item.isMine === false && item.minesAroundCount===0) {
+      } else if (item.isShown && item.isMine === false && item.minesAroundCount === 0) {
         cell = EMPTY;
         strHTML += `<td id="${i}-${j}" class=" ${className} is-shown"> ${cell} </td>`
       } else {
@@ -130,64 +117,50 @@ let displayHours = 0;
 //Define var to hold setInterval() function
 let interval = null;
 
-//Define var to hold stopwatch status
-let status = "stopped";
-
 //Stopwatch function (logic to determine when to increment next value, etc.)
-function stopWatch(){
+function stopWatch() {
 
-    seconds++;
+  seconds++;
 
-    //Logic to determine when to increment next value
-    if(seconds / 60 === 1){
-        seconds = 0;
-        minutes++;
-
-        
-
-    }
-
-    //If seconds are only one digit, add a leading 0 to the value
-    if(seconds < 10){
-        displaySeconds = "0" + seconds.toString();
-    }
-    else{
-        displaySeconds = seconds;
-    }
+  //Logic to determine when to increment next value
+  if (seconds / 60 === 1) {
+    seconds = 0;
+    minutes++;
 
 
-    //Display updated time values to user
-    document.querySelector('.stopwatch').innerHTML =  minutes + ":" + displaySeconds;
 
+  }
+
+  //If seconds are only one digit, add a leading 0 to the value
+  if (seconds < 10) {
+    displaySeconds = "0" + seconds.toString();
+  }
+  else {
+    displaySeconds = seconds;
+  }
+
+
+  //Display updated time values to user
+  document.querySelector('.stopwatch').innerHTML = minutes + ":" + displaySeconds;
+  return
 }
 
 
 
-function startStop(){
-
-    if(status === "stopped"){
-
-        //Start the stopwatch (by calling the setInterval() function)
-        interval = window.setInterval(stopWatch, 1000);
-        status = "started";
-
-    }
-    else{
-
-        window.clearInterval(interval);
-        status = "stopped";
-
-    }
-
+function startTimer() {
+    interval = setInterval(stopWatch, 1000);
+  return
 }
 
 //Function to reset the stopwatch
-function reset(){
+function resetTimer() {
 
-    window.clearInterval(interval);
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-    document.querySelector('.stopwatch').innerHTML = "0:00";
+  clearInterval(interval);
+  interval = null;
+  seconds = 0;
+  minutes = 0;
+  hours = 0;
 
+  document.querySelector('.stopwatch').innerHTML = "0:00";
+  return
 }
