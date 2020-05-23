@@ -12,7 +12,7 @@ body {
     /* font-size: xx-large */
     background-color: white;
     cursor: pointer;
-    padding-top: 4px;
+    /* padding-top: 4px; */
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     -moz-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
@@ -41,6 +41,11 @@ table {
     margin-right: auto;
     margin-top: 20px;
     border: 2px white solid;
+    -moz-user-select: none;
+    -webkit-user-select: none; 
+    -ms-user-select:none; 
+    user-select:none;
+    -o-user-select:none;
 }
 
 .is-shown {
