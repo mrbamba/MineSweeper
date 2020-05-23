@@ -9,7 +9,7 @@ function stopwatch(){
     seconds=0
     minutes++
   }
-  var elStopWatch = document.querySelector('.stopwatch').innerHTML=minutes+":"+seconds;
+  var elStopWatch = document.querySelector('.stopwatch').innerText=minutes+":"+seconds;
 
 }
 
@@ -115,7 +115,8 @@ function getCellCoord(strCellId) {
 }
 
 
-// stopWatch taken from https://github.com/JamieMcGibbon/TechnicalCafe/tree/master/Misc%20Tutorials/Stopwatch%20Tutorial
+// stopWatch taken from 
+// https://github.com/JamieMcGibbon/TechnicalCafe/tree/master/Misc%20Tutorials/Stopwatch%20Tutorial
 //Define vars to hold time values
 let seconds = 0;
 let minutes = 0;
@@ -142,10 +143,7 @@ function stopWatch(){
         seconds = 0;
         minutes++;
 
-        if(minutes / 60 === 1){
-            minutes = 0;
-            hours++;
-        }
+        
 
     }
 
@@ -159,7 +157,7 @@ function stopWatch(){
 
 
     //Display updated time values to user
-    document.querySelector('.stopwatch').innerHTML =  displayMinutes + ":" + displaySeconds;
+    document.querySelector('.stopwatch').innerHTML =  minutes + ":" + displaySeconds;
 
 }
 
