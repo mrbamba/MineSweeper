@@ -3,16 +3,21 @@ body {
     color: white;
     /* max-width: width 960px; */
     text-align: center;
-    margin: 0;
+    margin: 0 auto;
+    -moz-user-select: none;
+    -webkit-user-select: none; 
+    -ms-user-select:none; 
+    user-select:none;
+    -o-user-select:none;
 }
 
 .header .restart {
-    font-size: 30px;
+    font-size: 28px;
     border-radius: 50%;
     /* font-size: xx-large */
     background-color: white;
     cursor: pointer;
-    /* padding-top: 4px; */
+    padding-top: 4px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     -moz-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
@@ -36,6 +41,7 @@ body {
 }
 
 table {
+    background-color: #e8e5e5;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -112,6 +118,10 @@ div {
 .stopwatch {
     color: #1b96cf;
     display:inline-block;
-    margin-right:10px;} 
+    margin-right:10px;
+} 
 
+button:focus { 
+    outline-style: none; 
 }
+
