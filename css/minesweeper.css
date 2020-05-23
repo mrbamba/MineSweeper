@@ -18,6 +18,12 @@ body {
     box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
 }
 
+.restart:hover{
+    -webkit-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    -moz-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+    box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
+}
+
 .cell {
     width: 40px;
     height: 40px;
@@ -55,6 +61,7 @@ table {
 .life-counter {
     padding: 10px;
     margin: 10px;
+    display:inline-block;
 }
 
 div {
@@ -91,13 +98,15 @@ div {
     box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
 }
 
-/* .pick-board :hover {
+.pick-board:hover {
     -webkit-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     -moz-box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
     box-shadow: inset 3px 3px 3px 0px rgba(50, 50, 50, 0.46);
-} */
+}
 
 .stopwatch {
     color: #1b96cf;
+    display:inline-block;
+    margin-right:10px;} 
 
 }
