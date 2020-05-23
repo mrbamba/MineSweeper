@@ -1,10 +1,6 @@
 'use strict'
 
 // timer variables
-var gTimerInterval;
-var gTimer = 0
-var seconds=0;
-var minutes=0;
 
 
 function stopwatch(){
@@ -118,13 +114,82 @@ function getCellCoord(strCellId) {
   return coord;
 }
 
-// starts the timer
-function timer() {
-  var elStopWatch = document.querySelector('.stopwatch')
-  gTimerInterval = setInterval(function () {
-    gTimer++
-    elStopWatch.innerHTML = gTimer / 100
-      , 1000
-  });
+
+// stopWatch taken from https://github.com/JamieMcGibbon/TechnicalCafe/tree/master/Misc%20Tutorials/Stopwatch%20Tutorial
+//Define vars to hold time values
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+//Define vars to hold "display" value
+let displaySeconds = 0;
+let displayMinutes = 0;
+let displayHours = 0;
+
+//Define var to hold setInterval() function
+let interval = null;
+
+//Define var to hold stopwatch status
+let status = "stopped";
+
+//Stopwatch function (logic to determine when to increment next value, etc.)
+function stopWatch(){
+
+    seconds++;
+
+    //Logic to determine when to increment next value
+    if(seconds / 60 === 1){
+        seconds = 0;
+        minutes++;
+
+        if(minutes / 60 === 1){
+            minutes = 0;
+            hours++;
+        }
+
+    }
+
+    //If seconds are only one digit, add a leading 0 to the value
+    if(seconds < 10){
+        displaySeconds = "0" + seconds.toString();
+    }
+    else{
+        displaySeconds = seconds;
+    }
+
+
+    //Display updated time values to user
+    document.querySelector('.stopwatch').innerHTML =  displayMinutes + ":" + displaySeconds;
+
+}
+
+
+
+function startStop(){
+
+    if(status === "stopped"){
+
+        //Start the stopwatch (by calling the setInterval() function)
+        interval = window.setInterval(stopWatch, 1000);
+        status = "started";
+
+    }
+    else{
+
+        window.clearInterval(interval);
+        status = "stopped";
+
+    }
+
+}
+
+//Function to reset the stopwatch
+function reset(){
+
+    window.clearInterval(interval);
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    document.querySelector('.stopwatch').innerHTML = "0:00";
 
 }
